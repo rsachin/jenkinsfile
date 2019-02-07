@@ -1,34 +1,83 @@
-// see https://dzone.com/refcardz/continuous-delivery-with-jenkins-workflow for tutorial
-// see https://documentation.cloudbees.com/docs/cookbook/_pipeline_dsl_keywords.html for dsl reference
-// This Jenkinsfile should simulate a minimal Jenkins pipeline and can serve as a starting point.
-// NOTE: sleep commands are solelely inserted for the purpose of simulating long running tasks when you run the pipeline
 pipeline {
-   // Mark the code checkout 'stage'....
-   // stage 'checkout'
 
-   // Get some code from a GitHub repository
-   // git url: 'https://github.com/kesselborn/jenkinsfile'
-   // sh 'git clean -fdx; sleep 4;'
+    agent any
 
-   // Get the maven tool.
-   // ** NOTE: This 'mvn' maven tool must be configured
-   // **       in the global configuration.
-   // def mvnHome = tool 'mvn'
+    tools { 
+        maven 'apache-maven-3.5.4' 
+        jdk 'Zulu_JDK_8.0.181' 
+    }
 
-   stage 'build' {
-   // set the version of the build artifact to the Jenkins BUILD_NUMBER so you can
-   // map artifacts to Jenkins builds
-   "${mvnHome}/bin/mvn versions:set -DnewVersion=${env.BUILD_NUMBER}"
-   "${mvnHome}/bin/mvn package"
-   }
+    parameters { 
+        choice(
+            name: 'environment', 
+            choices: ['none', 'dev', 'tint', 'fint'], 
+            description: ''
+        ) 
+    }
 
-   stage 'test'
-   parallel 'test': {
-     sh "${mvnHome}/bin/mvn test; sleep 2;"
-   }, 'verify': {
-     sh "${mvnHome}/bin/mvn verify; sleep 3"
-   }
+    stages {
 
-   stage 'archive'
-   archive 'target/*.jar'
+        stage ('Initialize') {
+            steps {
+                bat 'echo PATH = %PATH%'
+            }
+        }
+
+        stage ('Build') {
+
+            steps {
+                bat 'mvn -f flexapp-calendar-parent/pom.xml compile'
+            }
+
+        }
+
+        stage ('Test') {
+
+            steps {
+                bat 'mvn -f flexapp-calendar-parent/pom.xml test' 
+            }
+
+            post {
+                success {
+                    junit '**/target/surefire-reports/**/*.xml' 
+                }
+            }
+        }
+
+        stage ('Package') {
+
+            steps {
+                bat 'mvn -f flexapp-calendar-parent/pom.xml package -Ppackage -PSKIP.INTEGRATION.TEST -DskipTests'
+            }
+
+        }
+
+        stage ('Deployment') {
+
+            when {
+                // Only say hello if a "greeting" is requested
+                expression { params.environment != 'none' }
+            }
+
+            steps {
+
+                script {
+
+                    if (params.environment == "dev") {
+                        echo "Deploying to dev..."
+                    } else if (params.environment == "tint") {
+                        echo "Deploying to tint..."
+                    } else if (params.environment == "fint") {
+                        echo "Deploying to fint..."
+                    } else {
+                        echo "Not deploying."
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
 }
