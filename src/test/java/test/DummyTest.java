@@ -1,10 +1,15 @@
 package test;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-public class DummyTests {
+public class DummyTest {
+
+  private Dummy dummy = new Dummy();
+
   protected void run() {
-    System.out.print("Hello");
+    Assert.assertEquals("Genius", dummy.test("Sachin"));
+
   }
 
   @Test public void test1() {
