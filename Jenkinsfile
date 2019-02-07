@@ -26,7 +26,7 @@ pipeline {
         stage ('Build') {
 
             steps {
-                bat 'mvn -f flexapp-calendar-parent/pom.xml compile'
+                bat 'mvn compile'
             }
 
         }
@@ -34,7 +34,7 @@ pipeline {
         stage ('Test') {
 
             steps {
-                bat 'mvn -f flexapp-calendar-parent/pom.xml test' 
+                bat 'mvn test' 
             }
 
             post {
@@ -47,7 +47,7 @@ pipeline {
         stage ('Package') {
 
             steps {
-                bat 'mvn -f flexapp-calendar-parent/pom.xml package -Ppackage -PSKIP.INTEGRATION.TEST -DskipTests'
+                bat 'mvn package -DskipTests'
             }
 
         }
