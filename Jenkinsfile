@@ -7,6 +7,13 @@ pipeline {
         jdk 'Zulu_JDK_8.0.181' 
     }
 
+
+
+    environment {
+        PAYARA_HOME='C:\\rsachin\\sysprograms\\payara41'
+    }
+
+
     parameters { 
         choice(
             name: 'Environment',
@@ -25,8 +32,9 @@ pipeline {
 
         stage ('Initialize') {
             steps {
-                bat 'echo PATH = ' %PATH%
-                bat 'echo JAVA_HOME = ' %JAVA_HOME%
+                bat '%PATH%'
+                bat 'JAVA_HOME=%JAVA_HOME%'
+                bat '%PAYARA_HOME%'
             }
         }
 
@@ -35,7 +43,6 @@ pipeline {
             steps {
                 bat 'mvn compile'
             }
-
         }
 
         stage ('Test') {
