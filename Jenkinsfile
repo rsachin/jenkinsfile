@@ -9,17 +9,24 @@ pipeline {
 
     parameters { 
         choice(
-            name: 'environment', 
+            name: 'Environment',
             choices: ['none', 'dev', 'tint', 'fint'], 
             description: ''
-        ) 
+        )
+
+        choice(
+            name: 'Build Type',
+            choices: ['Snapshot', 'Release'],
+            description: 'Choose between Build Type'
+        )
     }
 
     stages {
 
         stage ('Initialize') {
             steps {
-                bat 'echo PATH = %PATH%'
+                bat 'echo PATH = ' %PATH%
+                bat 'echo JAVA_HOME = ' %JAVA_HOME%
             }
         }
 
