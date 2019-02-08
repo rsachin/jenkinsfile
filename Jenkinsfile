@@ -33,8 +33,8 @@ pipeline {
         stage ('Initialize') {
             steps {
                 bat '%PATH%'
-                bat 'echo var: %JAVA_HOME%'
-                bat 'echo var: %PAYARA_HOME%'
+                echo var: '%JAVA_HOME%'
+                echo var: '%PAYARA_HOME%'
             }
         }
 
