@@ -36,23 +36,23 @@ pipeline {
 
         stage ('Initializeee') {
             steps {
-                bat '%PATH%'
-                bat '%JAVA_HOME%'
-                bat '%PAYARA_HOME%'
+                script {
+                    echo 'Please WORK'
+                }
             }
         }
 
         stage ('Build') {
 
             steps {
-                bat 'mvn compile'
+                echo 'Please compile'
             }
         }
 
         stage ('Test') {
 
             steps {
-                bat 'mvn test' 
+                echo 'Please test'
             }
 
             post {
@@ -65,7 +65,7 @@ pipeline {
         stage ('Package') {
 
             steps {
-                bat 'mvn package -DskipTests'
+                echo 'Please package -DskipTests'
             }
 
         }
