@@ -38,6 +38,7 @@ pipeline {
             steps {
                 script {
                     echo 'Please WORK'
+                    bat(/"${maven}\bin\mvn" clean package/)
                 }
             }
         }
@@ -45,14 +46,18 @@ pipeline {
         stage ('Build') {
 
             steps {
-                echo 'Please compile'
+                script {
+                    echo 'Please compile'
+                }
             }
         }
 
         stage ('Test') {
 
             steps {
-                echo 'Please test'
+                script {
+                    echo 'Please test'
+                }
             }
 
             post {
@@ -65,7 +70,9 @@ pipeline {
         stage ('Package') {
 
             steps {
-                echo 'Please package -DskipTests'
+                script {
+                    echo 'Please package -DskipTests'
+                }
             }
 
         }
