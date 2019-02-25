@@ -2,6 +2,10 @@ pipeline {
 
     agent any
 
+    triggers {
+             pollSCM('* * * * *')
+     }
+
     tools { 
         maven 'apache-maven-3.5.4' 
         jdk 'Zulu_JDK_8.0.181' 
@@ -16,9 +20,9 @@ pipeline {
 
     parameters { 
         choice(
-            name: 'Environment',
+            name: 'Environments',
             choices: ['none', 'dev', 'tint', 'fint'], 
-            description: ''
+            description: 'Please choose environment'
         )
 
         choice(
@@ -30,11 +34,11 @@ pipeline {
 
     stages {
 
-        stage ('Initialize') {
+        stage ('Initializeee') {
             steps {
                 bat '%PATH%'
-                echo var: '%JAVA_HOME%'
-                echo var: '%PAYARA_HOME%'
+                bat '%JAVA_HOME%'
+                bat '%PAYARA_HOME%'
             }
         }
 
