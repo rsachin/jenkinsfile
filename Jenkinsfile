@@ -7,8 +7,8 @@ pipeline {
      }
 
     tools { 
-        mvn 'apache-maven-3.5.4'
-        jdk 'Zulu_JDK_8.0.181' 
+        maven 'apache-maven-3.5.4'
+        jdk 'Zulu_JDK_8.0.181'
     }
 
 
