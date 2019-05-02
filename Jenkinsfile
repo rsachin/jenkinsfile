@@ -22,7 +22,7 @@ pipeline {
         choice(
             name: 'Environments',
             choices: ['none', 'dev', 'tint', 'fint'], 
-            description: 'Please choose environment..........1'
+            description: 'Please choose environment..........2'
         )
 
         choice(
