@@ -7,8 +7,8 @@ pipeline {
      }
 
     tools { 
-        maven 'apache-maven-3.5.4'
-        jdk 'Zulu_JDK_8.0.181'
+        maven 'apache-maven-3.6.0'
+        jdk 'jdk1.8.0_191'
     }
 
 
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     echo 'Please WORK'
-                    bat 'mvn clean package'
+                    sh 'mvn clean package'
                 }
             }
         }
